@@ -8,7 +8,7 @@ import androidx.room.RoomDatabase
 @Database(entities = [GelirGiderModel::class], version = 1)
 abstract class GelirGiderDatabase: RoomDatabase() {
 
-    abstract fun gelirGiderDao():GelirGiderDao
+    abstract fun gelirGiderDAO():GelirGiderDAO
 
     companion object {
 

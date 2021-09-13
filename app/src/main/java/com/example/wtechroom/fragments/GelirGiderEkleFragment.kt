@@ -5,29 +5,22 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.wtechroom.GelirGiderDatabase
+import com.example.wtechroom.GelirGiderModel
 import com.example.wtechroom.R
+import com.example.wtechroom.databinding.FragmentGelirGiderEkleBinding
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [GelirGiderEkleFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class GelirGiderEkleFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+    private lateinit var binding: FragmentGelirGiderEkleBinding
+    private lateinit var gelirGiderDB: GelirGiderDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+
+        gelirGiderDB = GelirGiderDatabase.getirGelirGiderDatabase(requireContext())!!
+
     }
 
     override fun onCreateView(
@@ -35,26 +28,31 @@ class GelirGiderEkleFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_gelir_gider_ekle, container, false)
+        //return inflater.inflate(R.layout.fragment_gelir_gider_ekle, container, false)
+        binding = FragmentGelirGiderEkleBinding.inflate(inflater,container,false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment GelirGiderEkleFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            GelirGiderEkleFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.apply {
+
+            ekleButton.setOnClickListener {
+                val gelirGiderTurInput = gelirGiderTurEditText.text.toString()
+                val harcamaTurInput = harcamaTurEditText.text.toString()
+                val miktarInput = miktarEditText.text.toString()
+
+                //Veri ekleme
+                gelirGiderDB.gelirGiderDAO().gelirGiderEkle(
+                    GelirGiderModel(
+                        gelirgidertur = gelirGiderTurInput,
+                        harcamatur = harcamaTurInput,
+                        miktar = miktarInput
+                    )
+                )
             }
+        }
+
     }
 }

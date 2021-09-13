@@ -5,29 +5,25 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.wtechroom.GelirGiderDatabase
+import com.example.wtechroom.GelirGiderModel
 import com.example.wtechroom.R
+import com.example.wtechroom.databinding.FragmentTumGelirGiderlerBinding
+import com.google.android.material.snackbar.Snackbar
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [TumGelirGiderlerFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class TumGelirGiderlerFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+    private lateinit var binding: FragmentTumGelirGiderlerBinding
+    private lateinit var gelirGiderDB : GelirGiderDatabase
+    private lateinit var gelirGiderList : List<GelirGiderModel?>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+
+        gelirGiderDB = GelirGiderDatabase.getirGelirGiderDatabase(requireContext())!!
+
+        //Tüm Gelir ve Giderleri çağırma
+        gelirGiderList = gelirGiderDB.gelirGiderDAO().tumGelirGiderler()
     }
 
     override fun onCreateView(
@@ -35,26 +31,57 @@ class TumGelirGiderlerFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tum_gelir_giderler, container, false)
+        //return inflater.inflate(R.layout.fragment_tum_gelir_giderler, container, false)
+        binding = FragmentTumGelirGiderlerBinding.inflate(inflater,container,false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment TumGelirGiderlerFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            TumGelirGiderlerFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        bilgileriYazdir()
+
+        binding.apply {
+            guncelleButton.setOnClickListener {
+
+                gelirGiderDB.gelirGiderDAO().gelirGiderGuncelle(
+                    GelirGiderModel(
+                        idEditText.text.toString().toInt(),
+                        gelirGiderEditText.text.toString(),
+                        harcamaTurEditText.text.toString(),
+                        miktarEditText.text.toString()
+                    ))
+
+                //Yukarıda güncelledikten sonra, aşağıda veri çekme kodunu tekrar çağırıp yazdırıyoruz.
+                gelirGiderList = gelirGiderDB.gelirGiderDAO().tumGelirGiderler()
             }
+        }
+
     }
+
+    fun bilgileriYazdir() {
+
+        binding.apply {
+
+            if(gelirGiderList.isEmpty()){
+                Snackbar.make(requireView(),"Bilgiler bulunamadı !",1000).show()
+            }   else {
+                gelirGiderTurText.text = gelirGiderList[0]?.gelirgidertur
+                harcamaTurText.text = gelirGiderList[0]?.harcamatur
+                miktarText.text = gelirGiderList[0]?.miktar
+
+                gelirGiderTurText2.text = gelirGiderList[1]?.gelirgidertur
+                harcamaTurText2.text = gelirGiderList[1]?.harcamatur
+                miktarText2.text = gelirGiderList[1]?.miktar
+
+                gelirGiderTurText3.text = gelirGiderList[2]?.gelirgidertur
+                harcamaTurText3.text = gelirGiderList[2]?.harcamatur
+                miktarText3.text = gelirGiderList[2]?.miktar
+            }
+
+
+        }
+
+    }
+
 }

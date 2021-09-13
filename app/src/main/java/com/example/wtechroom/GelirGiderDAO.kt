@@ -1,12 +1,9 @@
 package com.example.wtechroom
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Update
+import androidx.room.*
 
 @Dao
-interface GelirGiderDao {
+interface GelirGiderDAO {
 
    @Insert
    fun gelirGiderEkle(gelirgider: GelirGiderModel)
@@ -16,5 +13,17 @@ interface GelirGiderDao {
 
    @Delete
    fun gelirGiderSil(gelirgider: GelirGiderModel)
+
+   @Query("DELETE FROM gelirgider")
+   fun gelirGiderTemizle()
+
+   @Query("SELECT * FROM gelirgider WHERE miktar = :miktarInput")
+   fun gelirGiderAra(miktarInput: String): GelirGiderModel?
+
+   @Query("DELETE FROM gelirgider WHERE id = :idInput")
+   fun gelirGiderSilIdIle(idInput: Int)
+
+   @Query("SELECT * FROM gelirgider")
+   fun tumGelirGiderler(): List<GelirGiderModel?>
 
 }
