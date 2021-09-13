@@ -3,9 +3,10 @@ package com.example.wtechroom
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
+import androidx.room.RoomDatabase
 
 @Database(entities = [GelirGiderModel::class], version = 1)
-abstract class GelirGiderDatabase {
+abstract class GelirGiderDatabase: RoomDatabase() {
 
     abstract fun gelirGiderDao():GelirGiderDao
 
@@ -15,14 +16,15 @@ abstract class GelirGiderDatabase {
 
         fun getirGelirGiderDatabase(context: Context): GelirGiderDatabase? {
 
-       /*     if ( instance == null){
+            if ( instance == null) {
                 instance = Room.databaseBuilder(
                     context,
                     GelirGiderDatabase::class.java,
-                    "gelirgider.db")
+                    "gelirgider.db"
+                )
                     .allowMainThreadQueries()
                     .build()
-            }*/
+            }
 
             return instance
         }
