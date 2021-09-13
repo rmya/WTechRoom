@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/Win10/AndroidStudioProjects/WTechRoom/app/src/main/res/layout/activity_main.xml" value="0.20092592592592592" />
+        <entry key="..\:/Users/Win10/AndroidStudioProjects/WTechRoom/app/src/main/res/layout/fragment_ana_sayfa.xml" value="0.225" />
+        <entry key="..\:/Users/Win10/AndroidStudioProjects/WTechRoom/app/src/main/res/layout/fragment_gelir_gider_ara.xml" value="0.2109375" />
+        <entry key="..\:/Users/Win10/AndroidStudioProjects/WTechRoom/app/src/main/res/layout/fragment_gelir_gider_ekle.xml" value="0.225" />
+        <entry key="..\:/Users/Win10/AndroidStudioProjects/WTechRoom/app/src/main/res/layout/fragment_tum_gelir_giderler.xml" value="0.225" />
+      </map>
+    </option>
+  </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
